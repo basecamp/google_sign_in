@@ -16,36 +16,40 @@ Now you can use the sign-in integration on your signup or sigin screen.
 
 Here's the most basic example:
 
-  # app/views/sessions/new.html.erb
-  <%= google_sign_in(url: session_path) do %>
-    <%= button_tag("Signin with Google") %>
-  <% end %>
+```ruby
+# app/views/sessions/new.html.erb
+<%= google_sign_in(url: session_path) do %>
+  <%= button_tag("Signin with Google") %>
+<% end %>
+```
 
 The `url` option is the URL that the hidden form will be submitted against along with the Google ID Token
 that's set after the user has picked the account and authenticated in the pop-up window Google provides.
 
 You can then use that in a sessions controller like so:
 
-  class SessionsController < ApplicationController
-    def new
-    end
-
-    def create
-      if user = authenticate_via_google
-        cookies.signed[:user_id] = user.id
-        redirect_to user
-      else
-        redirect_to new_session_url, alert: "authentication_failed"
-      end
-    end
-
-    private
-      def authenticate_via_google
-        if params[:google_id_token].present?
-          User.find_by google_id: GoogleSignIn::Identity.new(params[:google_id_token]).user_id
-        end
-      end
+```ruby
+class SessionsController < ApplicationController
+  def new
   end
+
+  def create
+    if user = authenticate_via_google
+      cookies.signed[:user_id] = user.id
+      redirect_to user
+    else
+      redirect_to new_session_url, alert: "authentication_failed"
+    end
+  end
+
+  private
+    def authenticate_via_google
+      if params[:google_id_token].present?
+        User.find_by google_id: GoogleSignIn::Identity.new(params[:google_id_token]).user_id
+      end
+    end
+end
+```
 
 (This example assumes that a user has already signed up for your service using Google Sign-In and that
 you're storing the Google user id in the `User#google_id` attribute).
