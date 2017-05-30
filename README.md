@@ -4,10 +4,10 @@ Google Sign-In provides an easy and secure way to let users signin into and up f
 without adding yet-another per-app email/password combination. Integrating it into your Rails app
 should be drop-in easy. This gem makes it so.
 
-The only configuration needed is setting the Google client id for your application. Google explains
-how to do that here: https://developers.google.com/identity/sign-in/web/server-side-flow#step_1_create_a_client_id_and_client_secret
+The only configuration needed is setting the Google client id for your application. [Google has a
+tutorial on how to setup a client id](https://developers.google.com/identity/sign-in/web/server-side-flow#step_1_create_a_client_id_and_client_secret).
 
-Once you have your client id, create a config/initializers/google_sign_in_client_id.rb file with this:
+Once you have your client id, create a `config/initializers/google_sign_in_client_id.rb` file with this:
 `GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>`
 
 Now you can use the sign-in integration on your signup or sigin screen. 
@@ -64,7 +64,9 @@ address, avatar url, and locale through it.
 The gem google-id-token is currently behind its GitHub repository on the release schedule. The latest release
 is version 1.3.1 from 2015. So for now, you should depend on the github version in your app's Gemfile:
 
-  gem 'google-id-token', github: 'google/google-id-token'
+```ruby
+gem 'google-id-token', github: 'google/google-id-token'
+```
 
 ## License
 
