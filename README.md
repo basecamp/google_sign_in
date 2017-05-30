@@ -8,7 +8,7 @@ The only configuration needed is setting the Google client id for your applicati
 how to do that here: https://developers.google.com/identity/sign-in/web/server-side-flow#step_1_create_a_client_id_and_client_secret
 
 Once you have your client id, create a config/initializers/google_sign_in_client_id.rb file with this:
-GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>
+`GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>`
 
 Now you can use the sign-in integration on your signup or sigin screen. 
 
@@ -48,7 +48,7 @@ You can then use that in a sessions controller like so:
   end
 
 (This example assumes that a user has already signed up for your service using Google Sign-In and that
-you're storing the Google user id in the User#google_id attribute).
+you're storing the Google user id in the `User#google_id` attribute).
 
 That's it! You can checkout the `GoogleSignIn::Identity` class for the thin wrapping it provides around
 the decoding of the Google ID Token using the google-id-token library. Interrogating this identity object
