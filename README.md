@@ -19,6 +19,9 @@ Here's the most basic example:
 ```ruby
 # app/views/sessions/new.html.erb
 <%= google_sign_in(url: session_path) do %>
+  # You can replace this with whatever design you please for the button.
+  # You should follow Google's brand guidelines for Google Sign-In, though:
+  # https://developers.google.com/identity/branding-guidelines
   <%= button_tag("Signin with Google") %>
 <% end %>
 ```
@@ -67,6 +70,12 @@ is version 1.3.1 from 2015. So for now, you should depend on the github version 
 ```ruby
 gem 'google-id-token', github: 'google/google-id-token'
 ```
+
+## Outstanding work
+
+- Proper testing. Need to generate a test client_id/google id token combo that we can use to test with.
+- Cajole Google to release a new version of the google-id-token so caveat can be removed.
+- Not much more. I'm seeking to keep this simple, just for signin/signup, not general Google integration.
 
 ## License
 
