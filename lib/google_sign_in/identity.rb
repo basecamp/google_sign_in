@@ -19,33 +19,33 @@ module GoogleSignIn
     end
 
     def user_id
-      @payload["sub"]
+      @payload['sub']
     end
 
     def name
-      @payload["name"]
+      @payload['name']
     end
 
     def email_address
-      @payload["email"]
+      @payload['email']
     end
 
     def email_verified?
-      @payload["email_verified"] == "true"
+      @payload['email_verified'] == 'true'
     end
 
     def avatar_url
-      @payload["picture"]
+      @payload['picture']
     end
 
     def locale
-      @payload["locale"]
+      @payload['locale']
     end
 
     private
       def ensure_client_id_present
         if client_id.blank?
-          raise ArgumentError, "GoogleSignIn.client_id must be set to validate identity"
+          raise ArgumentError, 'GoogleSignIn.client_id must be set to validate identity'
         end
       end
 
@@ -57,7 +57,7 @@ module GoogleSignIn
       end
 
       def ensure_proper_audience
-        @payload["aud"].include?(client_id)
+        @payload['aud'].include?(client_id)
       end
   end
 end
