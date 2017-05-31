@@ -24,7 +24,7 @@ Here's the most basic example:
 <%= yield :head %>
 </head>
 <body>
-<%= yield
+<%= yield %>
 </body>
 </html>
 
