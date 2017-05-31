@@ -17,6 +17,17 @@ Now you can use the sign-in integration on your signup or sigin screen.
 Here's the most basic example:
 
 ```ruby
+# app/views/layouts/application.html.erb
+<html>
+<head>
+<% # Required for google_sign_in to add the Google JS assets and meta tags! %>
+<%= yield :head %>
+</head>
+<body>
+<%= yield
+</body>
+</html>
+
 # app/views/sessions/new.html.erb
 <%= google_sign_in(url: session_path) do %>
   # You can replace this with whatever design you please for the button.
