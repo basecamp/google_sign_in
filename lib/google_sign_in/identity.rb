@@ -57,7 +57,9 @@ module GoogleSignIn
       end
 
       def ensure_proper_audience
-        @payload["aud"].include?(client_id)
+        unless @payload["aud"].include?(client_id)
+          raise "Failed to locate the client_id #{client_id} in the authorized audience (#{@payload["aud"]})"
+        end
       end
   end
 end

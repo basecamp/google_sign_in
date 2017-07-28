@@ -6,4 +6,8 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
     GoogleSignIn::Identity.client_id = nil
     assert_raises(ArgumentError) { GoogleSignIn::Identity.new("some_fake_token") }
   end
+
+  test "client_id must be part of the audience" do
+    # FIXME: Need to build a mock/simulate the google token to test this
+  end
 end
