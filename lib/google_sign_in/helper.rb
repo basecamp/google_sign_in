@@ -35,7 +35,7 @@ module GoogleSignIn
       end
 
       def google_sign_in_click_handler(&block)
-        tag.div(id: CONTAINER_ID) { capture(&block) }
+        tag.div(id: CONTAINER_ID, style: "visibility: hidden") { capture(&block) }
       end
 
       def google_sign_in_javascript_tag
@@ -48,9 +48,11 @@ module GoogleSignIn
             }
 
             function installClickHandler() {
+              var element = document.getElementById("#{CONTAINER_ID}")
               var options = new gapi.auth2.SigninOptionsBuilder()
               options.setPrompt("select_account")
-              gapi.auth2.getAuthInstance().attachClickHandler("#{CONTAINER_ID}", options, handleSignIn)
+              gapi.auth2.getAuthInstance().attachClickHandler(element, options, handleSignIn)
+              element.style.visibility = "visible"
             }
 
             function handleSignIn(googleUser) {
