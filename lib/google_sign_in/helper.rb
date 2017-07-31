@@ -7,14 +7,15 @@ module GoogleSignIn
         google_sign_in_javacript_include_tag +
         google_sign_in_client_id_meta_tag
 
-      google_sign_in_javascript_tag + 
+      google_sign_in_javascript_tag +
       google_sign_in_hidden_form_tag(url: url) +
       google_sign_in_click_handler(&block)
     end
 
     private
       def google_sign_in_javacript_include_tag
-        javascript_include_tag "https://apis.google.com/js/platform.js?onload=setupGoogleSignIn", async: true, defer: true
+        javascript_include_tag "https://apis.google.com/js/platform.js?onload=setupGoogleSignIn", async: true, defer: true,
+          data: { turbolinks_track: :reload, force_turbolinks_reload: Time.now.to_i }
       end
 
       def google_sign_in_client_id_meta_tag
@@ -39,7 +40,7 @@ module GoogleSignIn
 
           function selectGoogleSignInAccount(event) {
             event.preventDefault()
-      
+
             options = new gapi.auth2.SigninOptionsBuilder
             options.setPrompt("select_account")
 
