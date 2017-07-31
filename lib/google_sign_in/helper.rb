@@ -25,8 +25,8 @@ module GoogleSignIn
       end
 
       def google_sign_in_hidden_form_tag(url:)
-        form_with url: url, id: "google_signin", html: { style: "display: none" } do |form|
-          form.hidden_field :google_id_token, id: "google_id_token"
+        form_with url: url, html: { style: "display: none" } do |form|
+          form.hidden_field(:google_id_token, id: "google_id_token") + form.submit(id: "google_signin_submit")
         end
       end
 
@@ -53,7 +53,7 @@ module GoogleSignIn
               var token = googleUser.getAuthResponse().id_token
               if (token) {
                 document.getElementById("google_id_token").value = token
-                document.getElementById("google_signin").submit()
+                document.getElementById("google_signin_submit").click()
                 gapi.auth2.getAuthInstance().signOut()
               }
             }
