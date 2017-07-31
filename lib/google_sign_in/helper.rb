@@ -13,10 +13,6 @@ module GoogleSignIn
     end
 
     private
-      HIDDEN_INPUT_ID = "google_sign_in_token"
-      SUBMIT_BUTTON_ID = "google_sign_in_submit"
-      CONTAINER_ID = "google_sign_in_container"
-
       def google_sign_in_javacript_include_tag
         javascript_include_tag "https://apis.google.com/js/api.js", async: true, defer: true,
           onload: "this.onload=function(){};setupGoogleSignIn()",
@@ -30,12 +26,12 @@ module GoogleSignIn
 
       def google_sign_in_hidden_form_tag(url:)
         form_with url: url, html: { style: "display: none" } do |form|
-          form.hidden_field(:google_id_token, id: HIDDEN_INPUT_ID) + form.submit(id: SUBMIT_BUTTON_ID)
+          form.hidden_field(:google_id_token, id: "google_sign_in_token") + form.submit(id: "google_sign_in_submit")
         end
       end
 
       def google_sign_in_click_handler(&block)
-        tag.div(id: CONTAINER_ID, style: "visibility: hidden") { capture(&block) }
+        tag.div(id: "google_sign_in_container", style: "visibility: hidden") { capture(&block) }
       end
 
       def google_sign_in_javascript_tag
@@ -48,7 +44,7 @@ module GoogleSignIn
             }
 
             function installClickHandler() {
-              var element = document.getElementById("#{CONTAINER_ID}")
+              var element = document.getElementById("google_sign_in_container")
               var options = new gapi.auth2.SigninOptionsBuilder()
               options.setPrompt("select_account")
               gapi.auth2.getAuthInstance().attachClickHandler(element, options, handleSignIn)
@@ -58,8 +54,8 @@ module GoogleSignIn
             function handleSignIn(googleUser) {
               var token = googleUser.getAuthResponse().id_token
               if (token) {
-                document.getElementById("#{HIDDEN_INPUT_ID}").value = token
-                document.getElementById("#{SUBMIT_BUTTON_ID}").click()
+                document.getElementById("google_sign_in_token").value = token
+                document.getElementById("google_sign_in_submit").click()
                 gapi.auth2.getAuthInstance().signOut()
               }
             }
