@@ -10,7 +10,7 @@ tutorial on how to setup a client id](https://developers.google.com/identity/sig
 Once you have your client id, create a `config/initializers/google_sign_in_client_id.rb` file with this:
 `GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>`
 
-Now you can use the sign-in integration on your signup or sigin screen. 
+Now you can use the sign-in integration on your signup or sigin screen.
 
 ## Example
 
@@ -73,19 +73,9 @@ the decoding of the Google ID Token using the google-id-token library. Interroga
 for profile details is particularly helpful when you use Google for signup, as you can get the name, email
 address, avatar url, and locale through it.
 
-## Unreleased gem caveat
-
-The gem google-id-token is currently behind its GitHub repository on the release schedule. The latest release
-is version 1.3.1 from 2015. So for now, you should depend on the github version in your app's Gemfile:
-
-```ruby
-gem 'google-id-token', github: 'google/google-id-token'
-```
-
 ## Outstanding work
 
 - Proper testing. Need to generate a test client_id/google id token combo that we can use to test with.
-- Cajole Google to release a new version of the google-id-token so caveat can be removed.
 - Not much more. I'm seeking to keep this simple, just for signin/signup, not general Google integration.
 
 ## License
