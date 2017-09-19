@@ -2,13 +2,13 @@ require 'google_sign_in/identity'
 
 module GoogleSignIn
   module Helper
-    def google_sign_in(url:, &block)
+    def google_sign_in(**form_options, &block)
       content_for :head,
         google_sign_in_javacript_include_tag +
         google_sign_in_client_id_meta_tag
 
       google_sign_in_javascript_tag +
-      google_sign_in_hidden_form_tag(url: url) +
+      google_sign_in_hidden_form_tag(**form_options) +
       google_sign_in_click_handler(&block)
     end
 
@@ -24,8 +24,10 @@ module GoogleSignIn
         tag.meta name: "google-signin-client_id", content: GoogleSignIn::Identity.client_id
       end
 
-      def google_sign_in_hidden_form_tag(url:)
-        form_with url: url, html: { style: "display: none" } do |form|
+      def google_sign_in_hidden_form_tag(**options)
+        options.reverse_merge!(html: { style: "display: none" })
+
+        form_with(**options) do |form|
           form.hidden_field(:google_id_token, id: "google_sign_in_token") + form.submit(id: "google_sign_in_submit")
         end
       end
