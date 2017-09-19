@@ -10,7 +10,7 @@ tutorial on how to setup a client id](https://developers.google.com/identity/sig
 Once you have your client id, create a `config/initializers/google_sign_in_client_id.rb` file with this:
 `GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>`
 
-Now you can use the sign-in integration on your signup or sigin screen.
+Now you can use the sign-in integration on your signup or signin screen.
 
 ## Example
 
