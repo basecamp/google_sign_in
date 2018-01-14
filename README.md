@@ -73,10 +73,12 @@ the decoding of the Google ID Token using the google-id-token library. Interroga
 for profile details is particularly helpful when you use Google for signup, as you can get the name, email
 address, avatar url, and locale through it.
 
-## Outstanding work
+## Compatibility with Turbolinks
 
-- Proper testing. Need to generate a test client_id/google id token combo that we can use to test with.
-- Not much more. I'm seeking to keep this simple, just for signin/signup, not general Google integration.
+Google's JavaScript doesn't play nice with Turbolinks. We've routed around the damage by adding a [Turbolinks
+meta tag](https://github.com/turbolinks/turbolinks/blob/master/README.md#ensuring-specific-pages-trigger-a-full-reload)
+on whatever page `google_sign_in` is called to always do a full reload for that page. Note that this
+auto-compatibility feature requires Turbolinks 5.1+.
 
 ## License
 

@@ -5,7 +5,8 @@ module GoogleSignIn
     def google_sign_in(**form_options, &block)
       content_for :head,
         google_sign_in_javacript_include_tag +
-        google_sign_in_client_id_meta_tag
+        google_sign_in_client_id_meta_tag +
+        turbolinks_reload_meta_tag
 
       google_sign_in_javascript_tag +
       google_sign_in_hidden_form_tag(**form_options) +
@@ -16,12 +17,15 @@ module GoogleSignIn
       def google_sign_in_javacript_include_tag
         javascript_include_tag "https://apis.google.com/js/api.js", async: true, defer: true,
           onload: "this.onload=function(){};setupGoogleSignIn()",
-          onreadystatechange: "if (this.readyState === 'complete') this.onload()",
-          data: { turbolinks_track: :reload, force_turbolinks_reload: Time.now.to_i }
+          onreadystatechange: "if (this.readyState === 'complete') this.onload()"
       end
 
       def google_sign_in_client_id_meta_tag
         tag.meta name: "google-signin-client_id", content: GoogleSignIn::Identity.client_id
+      end
+
+      def turbolinks_reload_meta_tag
+        tag.meta name: "turbolinks-visit-control", content: "reload"
       end
 
       def google_sign_in_hidden_form_tag(**options)
