@@ -6,8 +6,8 @@ module GoogleSignIn
   class Identity
     class_attribute :client_id
 
-    class_attribute :token_expiry
-    self.token_expiry = 5.minutes
+    class_attribute :validator
+    self.validator = GoogleIDToken::Validator.new
 
     class_attribute :logger
     self.logger = Logger.new(STDOUT)
@@ -50,7 +50,7 @@ module GoogleSignIn
       end
 
       def set_extracted_payload(token)
-        @payload = GoogleIDToken::Validator.new(expiry: token_expiry).check(token, client_id)
+        @payload = validator.check(token, client_id)
       rescue GoogleIDToken::ValidationError => e
         logger.error "Google token failed to validate (#{e.message})"
         @payload = {}
