@@ -1,4 +1,4 @@
-require 'rails/railtie'
+require 'rails/engine'
 require 'google_sign_in/helper'
 
 module GoogleSignIn
