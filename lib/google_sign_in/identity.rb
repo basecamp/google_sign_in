@@ -1,6 +1,5 @@
 require 'google-id-token'
 require 'active_support/core_ext/class/attribute'
-require 'active_support/core_ext/numeric/time'
 
 module GoogleSignIn
   class Identity
