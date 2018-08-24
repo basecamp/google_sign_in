@@ -10,7 +10,7 @@ module GoogleSignIn
     self.token_expiry = 5.minutes
 
     class_attribute :logger
-    self.logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+    self.logger = Logger.new(STDOUT)
 
     def initialize(token)
       ensure_client_id_present
