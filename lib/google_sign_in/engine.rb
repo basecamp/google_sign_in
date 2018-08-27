@@ -5,7 +5,7 @@ module GoogleSignIn
     initializer 'google_sign_in.helper' do
       ActiveSupport.on_load :action_controller do
         require 'google_sign_in/helper'
-        ActionController::Base.send :helper, GoogleSignIn::Helper
+        ActionController::Base.helper GoogleSignIn::Helper
       end
     end
 
