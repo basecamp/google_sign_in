@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'activesupport', '>= 5.1'
   s.add_dependency 'google-id-token', '>= 1.4.0'
+  s.add_dependency 'oauth2', '>= 1.4.0'
 
   s.add_development_dependency 'bundler', '~> 1.15'
 
