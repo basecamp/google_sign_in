@@ -1,84 +1,149 @@
 # Google Sign-In for Rails
 
-Google Sign-In provides an easy and secure way to let users signin into and up for your service,
-without adding yet-another per-app email/password combination. Integrating it into your Rails app
-should be drop-in easy. This gem makes it so.
+This gem allows you to add Google sign-in to your Rails app. You can let users sign up for and sign in to your service
+with their Google accounts.
 
-The only configuration needed is setting the Google client id for your application. [Google has a
-tutorial on how to setup a client id](https://developers.google.com/identity/sign-in/web/server-side-flow#step_1_create_a_client_id_and_client_secret).
 
-Once you have your client id, create a `config/initializers/google_sign_in_client_id.rb` file with this:
-`GoogleSignIn::Identity.client_id = <THAT CLIENT ID YOU GOT FROM GOOGLE>`
+## Installation
 
-Now you can use the sign-in integration on your signup or signin screen.
-
-## Example
-
-Here's the most basic example:
+Add `google_sign_in` to your Rails app’s Gemfile and run `bundle install`:
 
 ```ruby
-# app/views/layouts/application.html.erb
-<html>
-<head>
-<% # Required for google_sign_in to add the Google JS assets and meta tags! %>
-<%= yield :head %>
-</head>
-<body>
-<%= yield %>
-</body>
-</html>
+gem 'google_sign_in'
+```
 
-# app/views/sessions/new.html.erb
-<%= google_sign_in(url: session_path) do %>
-  # You can replace this with whatever design you please for the button.
-  # You should follow Google's brand guidelines for Google Sign-In, though:
-  # https://developers.google.com/identity/branding-guidelines
-  <%= button_tag("Signin with Google") %>
+
+## Configuration
+
+First, set up an OAuth 2.0 Client ID in the Google API Console:
+
+1. Go to the [API Console](https://console.developers.google.com/apis/credentials).
+
+2. In the projects menu at the top of the page, ensure the correct project is selected or create a new one.
+
+3. In the left-side navigation menu, choose APIs & Services → Credentials.
+
+4. Click the button labeled “Create credentials.” In the menu that appears, choose to create an **OAuth client ID**.
+
+5. When prompted to select an application type, select **Web application**.
+
+6. Enter your application’s name.
+
+7. This gem adds a single OAuth callback to your app at `/google_sign_in/callback`. Under **Authorized redirect URIs**,
+   add that callback for your application’s domain: for example, `https://example.com/google_sign_in/callback`.
+
+   To use Google sign-in in development, you’ll need to add another redirect URI for your local environment, like
+   `http://localhost:3000/google_sign_in/callback`. For security reasons, we recommend using a separate
+   client ID for local development. Repeat these instructions to set up a new client ID for development.
+
+8. Click the button labeled “Create.” You’ll be presented with a client ID and client secret. Save these.
+
+With your client ID set up, configure your Rails application. In a new initializer, provide the client ID and client secret:
+
+```ruby
+# config/initializers/google_sign_in.rb
+Rails.application.configure do
+  config.google_sign_in.client_id = '...'
+  config.google_sign_in.client_secret = '...'
+end
+```
+
+**⚠️ Important:** Take care to protect your client secret. Consider storing your Google client ID and client secret in
+your Rails application’s [encrypted credentials file](https://guides.rubyonrails.org/security.html#custom-credentials):
+
+```yaml
+# rails credentials:edit
+google_sign_in_client_id: ...
+google_sign_in_client_secret: ...
+```
+
+```ruby
+# config/initializers/google_sign_in.rb
+Rails.application.configure do
+  config.google_sign_in.client_id = Rails.application.credentials.google_sign_in_client_id
+  config.google_sign_in.client_secret = Rails.application.credentials.google_sign_in_client_secret
+end
+```
+
+Alternatively, provide the client ID and client secret using ENV variables:
+
+```ruby
+# config/initializers/google_sign_in.rb
+Rails.application.configure do
+  config.google_sign_in.client_id = ENV['google_sign_in_client_id']
+  config.google_sign_in.client_secret = ENV['google_sign_in_client_secret']
+end
+```
+
+## Usage
+
+This gem provides a `google_sign_in_button` helper. It generates a button which initiates Google sign-in:
+
+```erb
+<%= google_sign_in_button 'Sign in with my Google account', proceed_to: create_login_url %>
+
+<%= google_sign_in_button image_tag('google_logo.png', alt: 'Google'), proceed_to: create_login_url %>
+
+<%= google_sign_in_button proceed_to: create_login_url do %>
+  Sign in with my <%= image_tag('google_logo.png', alt: 'Google') %> account
 <% end %>
 ```
 
-The `url` option is the URL that the hidden form will be submitted against along with the Google ID Token
-that's set after the user has picked the account and authenticated in the pop-up window Google provides.
-
-You can then use that in a sessions controller like so:
+The `proceed_to` argument is required. After authenticating with Google, the gem redirects to `proceed_to`, providing
+a Google ID token in `flash[:google_sign_in_token]`. Your application decides what to do with it:
 
 ```ruby
-class SessionsController < ApplicationController
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  get 'login', to: 'logins#new'
+  get 'login/create', to: 'logins#create', as: :create_login
+end
+```
+
+```ruby
+# app/controllers/logins_controller.rb
+class LoginsController < ApplicationController
   def new
   end
 
   def create
-    if user = authenticate_via_google
+    if user = authenticate_with_google
       cookies.signed[:user_id] = user.id
       redirect_to user
     else
-      redirect_to new_session_url, alert: "authentication_failed"
+      redirect_to new_session_url, alert: 'authentication_failed'
     end
   end
 
   private
-    def authenticate_via_google
-      if params[:google_id_token].present?
-        User.find_by google_id: GoogleSignIn::Identity.new(params[:google_id_token]).user_id
+    def authenticate_with_google
+      if flash[:google_sign_in_token].present?
+        User.find_by google_id: GoogleSignIn::Identity.new(flash[:google_sign_in_token]).user_id
       end
     end
 end
 ```
 
-(This example assumes that a user has already signed up for your service using Google Sign-In and that
-you're storing the Google user id in the `User#google_id` attribute).
+(The above example assumes the user has already signed up for your service and that you’re storing their Google user ID
+in the `User#google_id` attribute.)
 
-That's it! You can checkout the `GoogleSignIn::Identity` class for the thin wrapping it provides around
-the decoding of the Google ID Token using the google-id-token library. Interrogating this identity object
-for profile details is particularly helpful when you use Google for signup, as you can get the name, email
-address, avatar url, and locale through it.
+The `GoogleSignIn::Identity` class decodes and verifies the integrity of a Google ID token. It exposes the profile
+information contained in the token via the following instance methods:
 
-## Compatibility with Turbolinks
+* `name`
 
-Google's JavaScript doesn't play nice with Turbolinks. We've routed around the damage by adding a [Turbolinks
-meta tag](https://github.com/turbolinks/turbolinks/blob/master/README.md#ensuring-specific-pages-trigger-a-full-reload)
-on whatever page `google_sign_in` is called to always do a full reload for that page. Note that this
-auto-compatibility feature requires Turbolinks 5.1+.
+* `email_address`
+
+* `user_id`: A value that uniquely identifies a single Google user. Use this, not `email_address`, to associate a
+  Google user with an application user. A Google user’s email address may change, but their `user_id` will remain constant.
+
+* `email_verified?`
+
+* `avatar_url`
+
+* `locale`
+
 
 ## License
 

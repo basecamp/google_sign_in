@@ -3,8 +3,6 @@ require 'active_support/core_ext/class/attribute'
 
 module GoogleSignIn
   class Identity
-    class_attribute :client_id
-
     class_attribute :validator
     self.validator = GoogleIDToken::Validator.new
 
@@ -59,6 +57,10 @@ module GoogleSignIn
         unless @payload["aud"].include?(client_id)
           raise "Failed to locate the client_id #{client_id} in the authorized audience (#{@payload["aud"]})"
         end
+      end
+
+      def client_id
+        GoogleSignIn.client_id
       end
   end
 end
