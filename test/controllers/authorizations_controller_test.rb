@@ -6,7 +6,7 @@ class GoogleSignIn::AuthorizationsControllerTest < ActionDispatch::IntegrationTe
     assert_response :redirect
     assert_match 'https://accounts.google.com/o/oauth2/auth', response.location
 
-    params = query_params_from(response.location)
+    params = extract_query_params_from(response.location)
     assert_equal '86179201039-eks5VfVc46WoFYyZVUDpQHeZFDRCqno3.apps.googleusercontent.com', params[:client_id]
     assert_equal 'login', params[:prompt]
     assert_equal 'code', params[:response_type]
@@ -19,11 +19,8 @@ class GoogleSignIn::AuthorizationsControllerTest < ActionDispatch::IntegrationTe
   end
 
   private
-    def query_params_from(url)
-      Rack::Utils.parse_query(query_from(url)).symbolize_keys
-    end
-
-    def query_from(url)
-      URI(url).query
+    def extract_query_params_from(url)
+      query = URI(url).query
+      Rack::Utils.parse_query(query).symbolize_keys
     end
 end
