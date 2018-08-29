@@ -29,8 +29,8 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     def stub_token_request(code:, **params)
       stub_request(:post, 'https://www.googleapis.com/oauth2/v3/token').
         with(body: { grant_type: 'authorization_code', code: code,
-          client_id: '86179201039-eks5VfVc46WoFYyZVUDpQHeZFDRCqno3.apps.googleusercontent.com',
-          client_secret: 'r(XsBajmyMddruvf$jDgLyPK', redirect_uri: 'http://www.example.com/google_sign_in/callback' }).
+          client_id: FAKE_GOOGLE_CLIENT_ID, client_secret: FAKE_GOOGLE_CLIENT_SECRET,
+          redirect_uri: 'http://www.example.com/google_sign_in/callback' }).
         to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: JSON.generate(params))
     end
 end

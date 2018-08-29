@@ -7,7 +7,7 @@ class GoogleSignIn::AuthorizationsControllerTest < ActionDispatch::IntegrationTe
     assert_match 'https://accounts.google.com/o/oauth2/auth', response.location
 
     params = extract_query_params_from(response.location)
-    assert_equal '86179201039-eks5VfVc46WoFYyZVUDpQHeZFDRCqno3.apps.googleusercontent.com', params[:client_id]
+    assert_equal FAKE_GOOGLE_CLIENT_ID, params[:client_id]
     assert_equal 'login', params[:prompt]
     assert_equal 'code', params[:response_type]
     assert_equal 'http://www.example.com/google_sign_in/callback', params[:redirect_uri]
