@@ -7,6 +7,9 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
     else
       head :unprocessable_entity
     end
+  rescue GoogleSignIn::RedirectProtector::Violation => error
+    logger.error error.message
+    head :bad_request
   end
 
   private
