@@ -28,7 +28,7 @@ module GoogleSignIn
     end
 
     def email_verified?
-      @payload["email_verified"] == "true"
+      @payload["email_verified"] == true
     end
 
     def avatar_url
