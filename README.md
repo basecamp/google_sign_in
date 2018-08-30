@@ -60,8 +60,8 @@ google_sign_in_client_secret: ...
 ```ruby
 # config/initializers/google_sign_in.rb
 Rails.application.configure do
-  config.google_sign_in.client_id = Rails.application.credentials.google_sign_in_client_id
-  config.google_sign_in.client_secret = Rails.application.credentials.google_sign_in_client_secret
+  config.google_sign_in.client_id     = credentials.google_sign_in_client_id
+  config.google_sign_in.client_secret = credentials.google_sign_in_client_secret
 end
 ```
 
@@ -70,7 +70,7 @@ Alternatively, provide the client ID and client secret using ENV variables:
 ```ruby
 # config/initializers/google_sign_in.rb
 Rails.application.configure do
-  config.google_sign_in.client_id = ENV['google_sign_in_client_id']
+  config.google_sign_in.client_id     = ENV['google_sign_in_client_id']
   config.google_sign_in.client_secret = ENV['google_sign_in_client_secret']
 end
 ```
