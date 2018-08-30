@@ -141,3 +141,5 @@ information contained in the token via the following instance methods:
 ## License
 
 Google Sign-In for Rails is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+Google is a registered trademark of Google LLC. This project is not operated by or in any way affiliated with Google LLC.
