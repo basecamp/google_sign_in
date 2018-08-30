@@ -1,10 +1,9 @@
 require 'google-id-token'
-require 'active_support/core_ext/class/attribute'
+require 'active_support/core_ext/module/delegation'
 
 module GoogleSignIn
   class Identity
     class_attribute :validator, default: GoogleIDToken::Validator.new
-    class_attribute :logger, default: Logger.new(STDOUT)
 
     def initialize(token)
       ensure_client_id_present
@@ -37,6 +36,8 @@ module GoogleSignIn
     end
 
     private
+      delegate :client_id, :logger, to: GoogleSignIn
+
       def ensure_client_id_present
         if client_id.blank?
           raise ArgumentError, "GoogleSignIn.client_id must be set to validate identity"
@@ -54,10 +55,6 @@ module GoogleSignIn
         unless @payload["aud"].include?(client_id)
           raise "Failed to locate the client_id #{client_id} in the authorized audience (#{@payload["aud"]})"
         end
-      end
-
-      def client_id
-        GoogleSignIn.client_id
       end
   end
 end

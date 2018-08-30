@@ -10,18 +10,13 @@ module GoogleSignIn
       config.after_initialize do
         GoogleSignIn.client_id     = config.google_sign_in.client_id || credentials.dig(:google_sign_in, :client_id)
         GoogleSignIn.client_secret = config.google_sign_in.client_secret || credentials.dig(:google_sign_in, :client_secret)
+        GoogleSignIn.logger        = config.google_sign_in.logger || Rails.logger
       end
     end
 
     initializer 'google_sign_in.helpers' do
       ActiveSupport.on_load :action_controller do
         ActionController::Base.helper GoogleSignIn::Engine.helpers
-      end
-    end
-
-    initializer 'google_sign_in.logger' do
-      config.after_initialize do
-        GoogleSignIn::Identity.logger = Rails.logger
       end
     end
 
