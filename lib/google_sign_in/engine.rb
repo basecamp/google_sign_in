@@ -8,8 +8,8 @@ module GoogleSignIn
 
     initializer 'google_sign_in.config' do
       config.after_initialize do
-        GoogleSignIn.client_id     = config.google_sign_in.client_id
-        GoogleSignIn.client_secret = config.google_sign_in.client_secret
+        GoogleSignIn.client_id     = config.google_sign_in.client_id || credentials.dig(:google_sign_in, :client_id)
+        GoogleSignIn.client_secret = config.google_sign_in.client_secret || credentials.dig(:google_sign_in, :client_secret)
       end
     end
 

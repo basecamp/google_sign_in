@@ -38,34 +38,19 @@ First, set up an OAuth 2.0 Client ID in the Google API Console:
 
 8. Click the button labeled “Create.” You’ll be presented with a client ID and client secret. Save these.
 
-With your client ID set up, configure your Rails application. In a new initializer, provide the client ID and client secret:
-
-```ruby
-# config/initializers/google_sign_in.rb
-Rails.application.configure do
-  config.google_sign_in.client_id = '...'
-  config.google_sign_in.client_secret = '...'
-end
-```
-
-**⚠️ Important:** Take care to protect your client secret. Consider storing your Google client ID and client secret in
-your Rails application’s [encrypted credentials file](https://guides.rubyonrails.org/security.html#custom-credentials):
+With your client ID set up, configure your Rails application to use it. Run `bin/rails credentials:edit` to edit your
+app’s [encrypted credentials](https://guides.rubyonrails.org/security.html#custom-credentials) and add the following:
 
 ```yaml
-# rails credentials:edit
-google_sign_in_client_id: ...
-google_sign_in_client_secret: ...
+google_sign_in:
+  client_id: [Your client ID here]
+  client_secret: [Your client secret here]
 ```
 
-```ruby
-# config/initializers/google_sign_in.rb
-Rails.application.configure do
-  config.google_sign_in.client_id     = credentials.google_sign_in_client_id
-  config.google_sign_in.client_secret = credentials.google_sign_in_client_secret
-end
-```
+You’re all set to use Google sign-in now. The gem automatically uses the client ID and client secret in your credentials.
 
-Alternatively, provide the client ID and client secret using ENV variables:
+Alternatively, you can provide the client ID and client secret using ENV variables. Add a new initializer that sets
+`config.google_sign_in.client_id` and `config.google_sign_in.client_secret`:
 
 ```ruby
 # config/initializers/google_sign_in.rb
@@ -74,6 +59,9 @@ Rails.application.configure do
   config.google_sign_in.client_secret = ENV['google_sign_in_client_secret']
 end
 ```
+
+**⚠️ Important:** Take care to protect your client secret from disclosure to third parties.
+
 
 ## Usage
 
