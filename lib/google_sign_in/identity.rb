@@ -3,11 +3,8 @@ require 'active_support/core_ext/class/attribute'
 
 module GoogleSignIn
   class Identity
-    class_attribute :validator
-    self.validator = GoogleIDToken::Validator.new
-
-    class_attribute :logger
-    self.logger = Logger.new(STDOUT)
+    class_attribute :validator, default: GoogleIDToken::Validator.new
+    class_attribute :logger, default: Logger.new(STDOUT)
 
     def initialize(token)
       ensure_client_id_present
