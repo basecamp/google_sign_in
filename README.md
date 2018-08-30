@@ -116,6 +116,11 @@ end
 (The above example assumes the user has already signed up for your service and that you’re storing their Google user ID
 in the `User#google_id` attribute.)
 
+For security reasons, the `proceed_to` URL you provide to `google_sign_in_button` is required to reside on the same
+origin as your application. This means it must have the same protocol, host, and port as the page where
+`google_sign_in_button` is used. We enforce this before redirecting to the `proceed_to` URL to guard against
+[open redirects](https://www.owasp.org/index.php/Unvalidated_Redirects_and_Forwards_Cheat_Sheet).
+
 The `GoogleSignIn::Identity` class decodes and verifies the integrity of a Google ID token. It exposes the profile
 information contained in the token via the following instance methods:
 
