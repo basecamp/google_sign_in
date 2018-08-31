@@ -6,10 +6,10 @@ module GoogleSignIn
 
     config.google_sign_in = ActiveSupport::OrderedOptions.new
 
-    initializer 'google_sign_in.config' do
+    initializer 'google_sign_in.config' do |app|
       config.after_initialize do
-        GoogleSignIn.client_id     = config.google_sign_in.client_id || credentials.dig(:google_sign_in, :client_id)
-        GoogleSignIn.client_secret = config.google_sign_in.client_secret || credentials.dig(:google_sign_in, :client_secret)
+        GoogleSignIn.client_id     = config.google_sign_in.client_id || app.credentials.dig(:google_sign_in, :client_id)
+        GoogleSignIn.client_secret = config.google_sign_in.client_secret || app.credentials.dig(:google_sign_in, :client_secret)
         GoogleSignIn.logger        = config.google_sign_in.logger || Rails.logger
       end
     end
