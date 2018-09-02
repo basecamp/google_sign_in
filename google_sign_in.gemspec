@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'oauth2', '>= 1.4.0'
 
   s.add_development_dependency 'bundler', '~> 1.15'
+  s.add_development_dependency 'jwt'
   s.add_development_dependency 'webmock'
 
   s.files      = `git ls-files`.split("\n")

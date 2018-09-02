@@ -3,12 +3,13 @@ require 'active_support/core_ext/module/delegation'
 
 module GoogleSignIn
   class Identity
+    class ValidationError < StandardError; end
+
     class_attribute :validator, default: GoogleIDToken::Validator.new
 
     def initialize(token)
       ensure_client_id_present
       set_extracted_payload(token)
-      ensure_proper_audience
     end
 
     def user_id
@@ -36,7 +37,7 @@ module GoogleSignIn
     end
 
     private
-      delegate :client_id, :logger, to: GoogleSignIn
+      delegate :client_id, to: GoogleSignIn
 
       def ensure_client_id_present
         if client_id.blank?
@@ -46,15 +47,8 @@ module GoogleSignIn
 
       def set_extracted_payload(token)
         @payload = validator.check(token, client_id)
-      rescue GoogleIDToken::ValidationError => e
-        logger.error "Google token failed to validate (#{e.message})"
-        @payload = {}
-      end
-
-      def ensure_proper_audience
-        unless @payload["aud"].include?(client_id)
-          raise "Failed to locate the client_id #{client_id} in the authorized audience (#{@payload["aud"]})"
-        end
+      rescue GoogleIDToken::ValidationError => error
+        raise ValidationError, error.message
       end
   end
 end
