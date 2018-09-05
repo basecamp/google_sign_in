@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name     = 'google_sign_in'
-  s.version  = '0.1.4'
-  s.authors  = 'David Heinemeier Hansson'
-  s.email    = 'david@basecamp.com'
+  s.version  = '1.0.0'
+  s.authors  = ['David Heinemeier Hansson', 'George Claghorn']
+  s.email    = ['david@basecamp.com', 'george@basecamp.com']
   s.summary  = 'Sign in (or up) with Google for Rails applications'
   s.homepage = 'https://github.com/basecamp/google_sign_in'
   s.license  = 'MIT'
