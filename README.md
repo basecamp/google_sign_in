@@ -140,6 +140,11 @@ information contained in the token via the following instance methods:
 * `locale`
 
 
+## Security
+
+For information on our security response procedure, see [SECURITY.md](SECURITY.md).
+
+
 ## License
 
 Google Sign-In for Rails is released under the [MIT License](https://opensource.org/licenses/MIT).
