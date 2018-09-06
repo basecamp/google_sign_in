@@ -24,5 +24,9 @@ module GoogleSignIn
         mount GoogleSignIn::Engine, at: app.config.google_sign_in.root || 'google_sign_in'
       end
     end
+
+    initializer 'google_sign_in.parameter_filters' do |app|
+      app.config.filter_parameters << :code
+    end
   end
 end
