@@ -14,8 +14,8 @@ module GoogleSignIn
     end
 
     initializer 'google_sign_in.helpers' do
-      ActiveSupport.on_load :action_controller do
-        ActionController::Base.helper GoogleSignIn::Engine.helpers
+      ActiveSupport.on_load :action_controller_base do
+        helper GoogleSignIn::Engine.helpers
       end
     end
 
