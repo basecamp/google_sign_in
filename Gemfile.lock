@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    google_sign_in (1.0.1)
+    google_sign_in (1.0.2)
       google-id-token (>= 1.4.0)
       oauth2 (>= 1.4.0)
       rails (>= 5.2.0)
