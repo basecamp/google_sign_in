@@ -61,6 +61,10 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
     assert_equal "en-US", GoogleSignIn::Identity.new(token_with(locale: "en-US")).locale
   end
 
+  test "extracting hosted_domain on google apps identity" do
+    assert_equal "basecamp.com", GoogleSignIn::Identity.new(token_with(hd: "basecamp.com")).hosted_domain
+  end
+
   private
     def switch_client_id_to(value)
       previous_value = GoogleSignIn.client_id
