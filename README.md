@@ -123,6 +123,8 @@ origin as your application. This means it must have the same protocol, host, and
 `google_sign_in_button` is used. We enforce this before redirecting to the `proceed_to` URL to guard against
 [open redirects](https://www.owasp.org/index.php/Unvalidated_Redirects_and_Forwards_Cheat_Sheet).
 
+### `GoogleSignIn::Identity`
+
 The `GoogleSignIn::Identity` class decodes and verifies the integrity of a Google ID token. It exposes the profile
 information contained in the token via the following instance methods:
 
@@ -139,7 +141,7 @@ information contained in the token via the following instance methods:
 
 * `locale`
 
-* `hosted_domain`: The user’s hosted G Suite domain, provided only if they belongs to a G Suite.
+* `hosted_domain`: The user’s hosted G Suite domain, provided only if they belong to a G Suite.
 
 
 ## Security
