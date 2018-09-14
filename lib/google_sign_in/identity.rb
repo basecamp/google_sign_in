@@ -36,6 +36,10 @@ module GoogleSignIn
       @payload["locale"]
     end
 
+    def hd
+      @payload["hd"]
+    end
+
     private
       delegate :client_id, to: GoogleSignIn
 
