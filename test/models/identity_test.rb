@@ -61,7 +61,7 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
     assert_equal "en-US", GoogleSignIn::Identity.new(token_with(locale: "en-US")).locale
   end
 
-  test "extracting hosted_domain on google apps identity" do
+  test "extracting hosted G Suite domain" do
     assert_equal "basecamp.com", GoogleSignIn::Identity.new(token_with(hd: "basecamp.com")).hosted_domain
   end
 
