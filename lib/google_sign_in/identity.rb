@@ -36,7 +36,7 @@ module GoogleSignIn
       @payload["locale"]
     end
 
-    def hd
+    def hosted_domain
       @payload["hd"]
     end
 

@@ -61,9 +61,10 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
     assert_equal "en-US", GoogleSignIn::Identity.new(token_with(locale: "en-US")).locale
   end
 
-  test "extracting hd on google apps identity" do
-    assert_equal "basecamp.com", GoogleSignIn::Identity.new(g_suite_token_with(locale: "en-US")).hd
+  test "extracting hosted_domain on google apps identity" do
+    assert_equal "basecamp.com", GoogleSignIn::Identity.new(token_with(hd: "basecamp.com")).hosted_domain
   end
+
   private
     def switch_client_id_to(value)
       previous_value = GoogleSignIn.client_id
@@ -75,9 +76,5 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
 
     def token_with(aud: FAKE_GOOGLE_CLIENT_ID, iss: "https://accounts.google.com", key: GOOGLE_PRIVATE_KEY, **payload)
       JWT.encode(payload.merge(aud: aud, iss: iss), key, "RS256")
-    end
-
-    def g_suite_token_with(aud: FAKE_GOOGLE_CLIENT_ID, iss: "https://accounts.google.com", key: GOOGLE_PRIVATE_KEY, **payload)
-      JWT.encode(payload.merge(aud: aud, iss: iss, hd: 'basecamp.com'), key, "RS256")
     end
 end

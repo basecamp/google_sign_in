@@ -139,7 +139,7 @@ information contained in the token via the following instance methods:
 
 * `locale`
 
-* `hd`: The hosted G Suite domain of the user, provided only if user belongs to a hosted domain.
+* `hosted_domain`: The hosted G Suite domain of the user, provided only if user belongs to a hosted domain.
 
 ## Security
 
