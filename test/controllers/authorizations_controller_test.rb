@@ -12,7 +12,7 @@ class GoogleSignIn::AuthorizationsControllerTest < ActionDispatch::IntegrationTe
     assert_equal 'code', params[:response_type]
     assert_equal 'http://www.example.com/google_sign_in/callback', params[:redirect_uri]
     assert_equal 'openid profile email', params[:scope]
-    assert_match /[A-Za-z0-9+\/]{22}==/, params[:state]
+    assert_match /[A-Za-z0-9+\/]{32}/, params[:state]
 
     assert_equal 'http://www.example.com/login', flash[:proceed_to]
     assert_equal params[:state], flash[:state]

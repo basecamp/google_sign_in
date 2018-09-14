@@ -12,6 +12,6 @@ class GoogleSignIn::AuthorizationsController < GoogleSignIn::BaseController
     end
 
     def state
-      @state ||= SecureRandom.base64(16)
+      @state ||= SecureRandom.base64(24)
     end
 end
