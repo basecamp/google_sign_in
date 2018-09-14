@@ -130,7 +130,7 @@ information contained in the token via the following instance methods:
 
 * `email_address`
 
-* `user_id`: A value that uniquely identifies a single Google user. Use this, not `email_address`, to associate a
+* `user_id`: A string that uniquely identifies a single Google user. Use this, not `email_address`, to associate a
   Google user with an application user. A Google user’s email address may change, but their `user_id` will remain constant.
 
 * `email_verified?`
@@ -139,7 +139,8 @@ information contained in the token via the following instance methods:
 
 * `locale`
 
-* `hosted_domain`: The hosted G Suite domain of the user, provided only if user belongs to a hosted domain.
+* `hosted_domain`: The user’s hosted G Suite domain, provided only if they belongs to a G Suite.
+
 
 ## Security
 
