@@ -20,7 +20,7 @@ module GoogleSignIn
     end
 
     initializer 'google_sign_in.mount' do |app|
-      app.routes.append do
+      app.routes.prepend do
         mount GoogleSignIn::Engine, at: app.config.google_sign_in.root || 'google_sign_in'
       end
     end
