@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    google_sign_in (1.1.0)
+    google_sign_in (1.1.1)
       google-id-token (>= 1.4.0)
       oauth2 (>= 1.4.0)
       rails (>= 5.2.0)
@@ -75,7 +75,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
-    marcel (0.3.2)
+    marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.0)
     mimemagic (0.3.2)
@@ -150,9 +150,9 @@ DEPENDENCIES
   bundler (~> 1.15)
   byebug
   google_sign_in!
-  jwt
+  jwt (>= 1.5.6)
   rake
-  webmock
+  webmock (>= 3.4.2)
 
 BUNDLED WITH
    1.16.4

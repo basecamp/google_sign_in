@@ -2,6 +2,7 @@
 .byebug_history
 log/*.log
 pkg/
+*.gem
 
 test/dummy/db/*.sqlite3
 test/dummy/db/*.sqlite3-journal
