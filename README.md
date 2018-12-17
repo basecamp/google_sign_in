@@ -80,7 +80,8 @@ This gem provides a `google_sign_in_button` helper. It generates a button which 
 ```
 
 The `proceed_to` argument is required. After authenticating with Google, the gem redirects to `proceed_to`, providing
-a Google ID token in `flash[:google_sign_in_token]`. Your application decides what to do with it:
+a Google ID token in `flash[:google_sign_in_token]` and the Google access-token in `flash[:google_sign_in_access_token]`.
+Your application decides what to do with it:
 
 ```ruby
 # config/routes.rb

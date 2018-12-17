@@ -9,7 +9,9 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
 
     get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
     assert_redirected_to 'http://www.example.com/login'
+
     assert_equal 'eyJhbGciOiJSUzI', flash[:google_sign_in_token]
+    assert_equal 'ya29.GlwIBo', flash[:google_sign_in_access_token]
   end
 
   test "protecting against CSRF" do
