@@ -65,6 +65,14 @@ class GoogleSignIn::IdentityTest < ActiveSupport::TestCase
     assert_equal "basecamp.com", GoogleSignIn::Identity.new(token_with(hd: "basecamp.com")).hosted_domain
   end
 
+  test "extracting given name" do
+    assert_equal "George", GoogleSignIn::Identity.new(token_with(given_name: "George")).given_name
+  end
+
+  test "extracting family name" do
+    assert_equal "Claghorn", GoogleSignIn::Identity.new(token_with(family_name: "Claghorn")).family_name
+  end
+
   private
     def switch_client_id_to(value)
       previous_value = GoogleSignIn.client_id

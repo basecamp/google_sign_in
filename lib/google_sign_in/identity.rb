@@ -40,6 +40,14 @@ module GoogleSignIn
       @payload["hd"]
     end
 
+    def given_name
+      @payload["given_name"]
+    end
+
+    def family_name
+      @payload["family_name"]
+    end
+
     private
       delegate :client_id, to: GoogleSignIn
 
