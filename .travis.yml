@@ -3,7 +3,7 @@ sudo: false
 cache: bundler
 
 # Bundler/RubyGems incompat on Ruby 2.5.0
-before_install: gem install bundler
+before_install: gem install bundler -v 1.17.3
 
 rvm:
   - 2.2
