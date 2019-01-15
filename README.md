@@ -143,6 +143,10 @@ information contained in the token via the following instance methods:
 
 * `hosted_domain`: The user’s hosted G Suite domain, provided only if they belong to a G Suite.
 
+* `given_name`: The user's given name.
+
+* `last_name`: The user's last name.
+
 
 ## Security
 
