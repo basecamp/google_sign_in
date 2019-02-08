@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.3'
 
-  s.add_dependency 'rails', '>= 5.2.0'
+  s.add_dependency 'rails', '>= 4.2.8'
   s.add_dependency 'google-id-token', '>= 1.4.0'
   s.add_dependency 'oauth2', '>= 1.4.0'
 
