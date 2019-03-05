@@ -14,7 +14,7 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
 
   private
     def valid_request?
-      flash[:state].present? && params.require(:state) == flash[:state]
+      flash[:state].present? && params[:state] == flash[:state]
     end
 
     def proceed_to_url
