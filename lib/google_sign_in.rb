@@ -5,7 +5,7 @@ module GoogleSignIn
   mattr_accessor :client_id
   mattr_accessor :client_secret
 
-  # https://tools.ietf.org/html/rfc6749#section-4.1.2.1
+  # Authorization Code Grant errors: https://tools.ietf.org/html/rfc6749#section-4.1.2.1
   OAUTH2_ERRORS = %w[
     invalid_request
     unauthorized_client

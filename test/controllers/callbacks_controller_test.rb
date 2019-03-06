@@ -46,8 +46,13 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "protecting against CSRF without flash state" do
+    post google_sign_in.authorization_url, params: { proceed_to: 'http://www.example.com/login' }
+    assert_response :redirect
+
     get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: 'invalid')
-    assert_response :unprocessable_entity
+    assert_redirected_to 'http://www.example.com/login'
+    assert_nil flash[:google_sign_in_token]
+    assert_equal 'invalid_request', flash[:google_sign_in_error]
   end
 
   test "protecting against CSRF with invalid state" do
@@ -56,7 +61,9 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil flash[:state]
 
     get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: 'invalid')
-    assert_response :unprocessable_entity
+    assert_redirected_to 'http://www.example.com/login'
+    assert_nil flash[:google_sign_in_token]
+    assert_equal 'invalid_request', flash[:google_sign_in_error]
   end
 
   test "protecting against CSRF with missing state" do
@@ -65,7 +72,9 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil flash[:state]
 
     get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy')
-    assert_response :unprocessable_entity
+    assert_redirected_to 'http://www.example.com/login'
+    assert_nil flash[:google_sign_in_token]
+    assert_equal 'invalid_request', flash[:google_sign_in_error]
   end
 
   test "protecting against open redirects" do
