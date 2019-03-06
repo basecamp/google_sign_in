@@ -2,7 +2,7 @@ require_dependency 'google_sign_in/redirect_protector'
 
 class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
   def show
-    redirect_to proceed_to_url, flash: google_sign_in_response
+    redirect_to proceed_to_url, flash: { google_sign_in: google_sign_in_response }
   rescue GoogleSignIn::RedirectProtector::Violation => error
     logger.error error.message
     head :bad_request
@@ -15,10 +15,12 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
 
     def google_sign_in_response
       if valid_request? && params[:code].present?
-        { google_sign_in: { id_token: id_token } }
+        { id_token: id_token }
       else
-        { google_sign_in: { error: error_message } }
+        { error: error_message_for(params[:error]) }
       end
+    rescue OAuth2::Error => error
+      { error: error_message_for(error.code) }
     end
 
     def valid_request?
@@ -29,7 +31,7 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
       client.auth_code.get_token(params[:code])['id_token']
     end
 
-    def error_message
-      params[:error].presence_in(GoogleSignIn::OAUTH2_ERRORS) || "invalid_request"
+    def error_message_for(error_code)
+      error_code.presence_in(GoogleSignIn::OAUTH2_ERRORS) || "invalid_request"
     end
 end
