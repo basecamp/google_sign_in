@@ -80,8 +80,8 @@ This gem provides a `google_sign_in_button` helper. It generates a button which 
 ```
 
 The `proceed_to` argument is required. After authenticating with Google, the gem redirects to `proceed_to`, providing
-a Google ID token in `flash[:google_sign_in_token]` or an [OAuth authorizaton code grant error](https://tools.ietf.org/html/rfc6749#section-4.1.2.1)
-in `flash[:google_sign_in_error]`. Your application decides what to do with it:
+a Google ID token in `flash[:google_sign_in][:id_token]` or an [OAuth authorizaton code grant error](https://tools.ietf.org/html/rfc6749#section-4.1.2.1)
+in `flash[:google_sign_in][:error]`. Your application decides what to do with it:
 
 ```ruby
 # config/routes.rb
@@ -109,9 +109,9 @@ class LoginsController < ApplicationController
 
   private
     def authenticate_with_google
-      if id_token = flash[:google_sign_in_token]
+      if id_token = flash[:google_sign_in][:id_token]
         User.find_by google_id: GoogleSignIn::Identity.new(id_token).user_id
-      elsif error = flash[:google_sign_in_error]
+      elsif error = flash[:google_sign_in][:error]
         logger.error "Google authentication error: #{error}"
         nil
       end

@@ -15,9 +15,9 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
 
     def google_sign_in_response
       if valid_request? && params[:code].present?
-        { google_sign_in_token: id_token }
+        { google_sign_in: { id_token: id_token } }
       else
-        { google_sign_in_error: error_message }
+        { google_sign_in: { error: error_message } }
       end
     end
 
