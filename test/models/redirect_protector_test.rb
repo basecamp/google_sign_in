@@ -20,6 +20,12 @@ class GoogleSignIn::RedirectProtectorTest < ActiveSupport::TestCase
     end
   end
 
+  test "disallows empty URL target" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin nil, 'https://basecamp.com'
+    end
+  end
+
   test "allows URL target with same origin as source" do
     assert_nothing_raised do
       GoogleSignIn::RedirectProtector.ensure_same_origin 'https://basecamp.com', 'https://basecamp.com'

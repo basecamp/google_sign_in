@@ -101,6 +101,11 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
   end
 
+  test "receiving no proceed_to URL" do
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: 'invalid')
+    assert_response :bad_request
+  end
+
   private
     def stub_token_for(code, **response_body)
       stub_token_request(code, status: 200, response: response_body)
