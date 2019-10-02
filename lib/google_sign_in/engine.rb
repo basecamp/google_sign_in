@@ -13,10 +13,8 @@ module GoogleSignIn
       end
     end
 
-    initializer 'google_sign_in.helpers' do
-      ActiveSupport.on_load :action_controller_base do
-        helper GoogleSignIn::Engine.helpers
-      end
+    config.to_prepare do
+      ActionController::Base.helper GoogleSignIn::Engine.helpers
     end
 
     initializer 'google_sign_in.mount' do |app|
