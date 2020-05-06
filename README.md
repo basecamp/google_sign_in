@@ -64,6 +64,16 @@ end
 
 **⚠️ Important:** Take care to protect your client secret from disclosure to third parties.
 
+9. (Optional) The callback route can be configured using:
+
+```ruby
+# config/initializers/google_sign_in.rb
+Rails.application.configure do
+  config.google_sign_in.root = "my_own/google_sign_in_route"
+end
+```
+
+Which would make the callback `/my_own/google_sign_in_route/callback`.
 
 ## Usage
 
