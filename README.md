@@ -166,6 +166,9 @@ information contained in the token via the following instance methods:
 
 For information on our security response procedure, see [SECURITY.md](SECURITY.md).
 
+## Maintenance
+
+Short of patching critical security issues, this gem is now considered done, and will not see any further feature development or minor bug fixes. Feel free to fork this work under the MIT license and continue the feature development under a different name.
 
 ## License
 
