@@ -1,4 +1,4 @@
-# Google Sign-In for Rails
+# Google Sign-In for Rails (No Longer Maintained)
 
 This gem allows you to add Google sign-in to your Rails app. You can let users sign up for and sign in to your service
 with their Google accounts.
