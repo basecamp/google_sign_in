@@ -64,6 +64,16 @@ end
 
 **⚠️ Important:** Take care to protect your client secret from disclosure to third parties.
 
+9. (Optional) The callback route can be configured using:
+
+```ruby
+# config/initializers/google_sign_in.rb
+Rails.application.configure do
+  config.google_sign_in.root = "my_own/google_sign_in_route"
+end
+```
+
+Which would make the callback `/my_own/google_sign_in_route/callback`.
 
 ## Usage
 
@@ -156,6 +166,9 @@ information contained in the token via the following instance methods:
 
 For information on our security response procedure, see [SECURITY.md](SECURITY.md).
 
+## Maintenance
+
+Short of patching critical security issues, this gem is now considered done, and will not see any further feature development or minor bug fixes. Feel free to fork this work under the MIT license and continue the feature development under a different name.
 
 ## License
 
