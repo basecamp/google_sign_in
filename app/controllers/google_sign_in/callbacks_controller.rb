@@ -1,4 +1,4 @@
-require_dependency 'google_sign_in/redirect_protector'
+require 'google_sign_in/redirect_protector'
 
 class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
   def show
