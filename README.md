@@ -159,7 +159,7 @@ information contained in the token via the following instance methods:
 
 * `given_name`: The user's given name.
 
-* `last_name`: The user's last name.
+* `family_name`: The user's last name.
 
 
 ## Security
