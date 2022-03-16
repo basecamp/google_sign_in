@@ -10,6 +10,7 @@ module GoogleSignIn
       config.after_initialize do
         GoogleSignIn.client_id     = config.google_sign_in.client_id || app.credentials.dig(:google_sign_in, :client_id)
         GoogleSignIn.client_secret = config.google_sign_in.client_secret || app.credentials.dig(:google_sign_in, :client_secret)
+        GoogleSignIn.extra_scopes = config.google_sign_in.extra_scopes || []
       end
     end
 

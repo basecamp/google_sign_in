@@ -4,7 +4,7 @@ class GoogleSignIn::AuthorizationsController < GoogleSignIn::BaseController
   skip_forgery_protection only: :create
 
   def create
-    redirect_to login_url(scope: 'openid profile email', state: state),
+    redirect_to login_url(scope: "openid profile email #{GoogleSignIn.extra_scopes&.join(" ")}", state: state),
       allow_other_host: true, flash: { proceed_to: params.require(:proceed_to), state: state }
   end
 
