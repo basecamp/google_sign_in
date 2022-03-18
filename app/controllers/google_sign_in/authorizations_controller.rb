@@ -10,7 +10,11 @@ class GoogleSignIn::AuthorizationsController < GoogleSignIn::BaseController
 
   private
     def login_url(**params)
-      client.auth_code.authorize_url(prompt: 'login', **params)
+      if GoogleSignIn.require_refresh_token
+        client.auth_code.authorize_url(access_type: :offline, approval_prompt: :force, **params)
+      else
+        client.auth_code.authorize_url(prompt: 'login', **params)
+      end
     end
 
     def state

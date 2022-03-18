@@ -5,6 +5,7 @@ module GoogleSignIn
   mattr_accessor :client_id
   mattr_accessor :client_secret
   mattr_accessor :extra_scopes
+  mattr_accessor :require_refresh_token
 
   # https://tools.ietf.org/html/rfc6749#section-4.1.2.1
   authorization_request_errors = %w[

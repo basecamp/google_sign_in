@@ -15,7 +15,7 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
 
     def google_sign_in_response
       if valid_request? && params[:code].present?
-        { id_token: id_token, access_token: access_token }
+        { id_token: id_token, raw_token: @token.to_json }
       else
         { error: error_message_for(params[:error]) }
       end
@@ -30,11 +30,6 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
     def id_token
       @token ||= client.auth_code.get_token(params[:code])
       @token['id_token']
-    end
-
-    def access_token
-      @token ||= client.auth_code.get_token(params[:code])
-      @token.token
     end
 
     def error_message_for(error_code)
