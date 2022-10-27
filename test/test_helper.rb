@@ -20,6 +20,17 @@ end
 require 'google-id-token'
 GoogleSignIn::Identity.validator = GoogleIDToken::Validator.new(x509_cert: GOOGLE_X509_CERTIFICATE)
 
+# Suppress incorrect OAuth2 client warning about having both an access token
+# and an ID token. They aren't interchangeable. And ID token is returned with
+# OIDC scoped requests and is used for authentication, whereas the access token
+# is used for authorization.
+module SuppressOAuthExtraTokensWarning
+  def from_hash(client, hash)
+    new client, hash.fetch("access_token"), hash.except("access_token")
+  end
+end
+OAuth2::AccessToken.singleton_class.prepend SuppressOAuthExtraTokensWarning
+
 class ActionView::TestCase
   private
     def assert_dom_equal(expected, actual, message = nil)
