@@ -3,6 +3,7 @@ require 'google_sign_in/redirect_protector'
 class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
   def show
     redirect_to proceed_to_url, flash: { google_sign_in: google_sign_in_response }
+    clear_redeemed_flash_keys if valid_request?
   rescue GoogleSignIn::RedirectProtector::Violation => error
     logger.error error.message
     head :bad_request
@@ -33,5 +34,11 @@ class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
 
     def error_message_for(error_code)
       error_code.presence_in(GoogleSignIn::OAUTH2_ERRORS) || "invalid_request"
+    end
+
+    # Clear keys we don't need anymore to reduce the session size.
+    def clear_redeemed_flash_keys
+      flash.delete(:proceed_to)
+      flash.delete(:state)
     end
 end
