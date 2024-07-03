@@ -35,6 +35,7 @@ module GoogleSignIn
   OAUTH2_ERRORS = authorization_request_errors | access_token_request_errors
 
   def self.oauth2_client(redirect_uri:)
+    Rails.logger.debug "VZ in oauth2_client, authorize_url: #{GoogleSignIn.authorize_url}, token_url: #{GoogleSignIn.token_url}, redirect_uri: #{redirect_uri}, client options: #{GoogleSignIn.oauth2_client_options.to_h.inspect}"
     OAuth2::Client.new \
       GoogleSignIn.client_id,
       GoogleSignIn.client_secret,
