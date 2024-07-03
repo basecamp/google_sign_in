@@ -2,7 +2,7 @@ require 'google_sign_in/redirect_protector'
 
 class GoogleSignIn::CallbacksController < GoogleSignIn::BaseController
   def show
-    redirect_to proceed_to_url, flash: { google_sign_in: google_sign_in_response }
+    redirect_to proceed_to_url, allow_other_host: true, flash: { google_sign_in: google_sign_in_response }
   rescue GoogleSignIn::RedirectProtector::Violation => error
     logger.error error.message
     head :bad_request
