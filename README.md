@@ -77,10 +77,14 @@ Which would make the callback `/my_own/google_sign_in_route/callback`.
 
 ## Usage
 
-This gem provides a `google_sign_in_button` helper. It generates a button which initiates Google sign-in:
+This gem provides a `google_sign_in_button` helper to generate a button which initiates Google sign-in.
+When using with Hotwire and Turbo, add the "turbo=false" HTML data attribute to prevent Turbo
+from executing it asynchonously. For example:
 
 ```erb
-<%= google_sign_in_button 'Sign in with my Google account', proceed_to: create_login_url %>
+<%= google_sign_in_button 'Sign in with my Google account',
+      proceed_to: create_login_url,
+      data: { turbo: "false" } %>
 
 <%= google_sign_in_button image_tag('google_logo.png', alt: 'Google'), proceed_to: create_login_url %>
 
