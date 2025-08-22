@@ -8,6 +8,18 @@ class GoogleSignIn::RedirectProtectorTest < ActiveSupport::TestCase
     end
   end
 
+  test "disallows URL target that is not a valid URL" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin 'https://basecamp.com\n\r@\n\revil.com', 'https://basecamp.com'
+    end
+  end
+
+  test "disallows URL target that is blank" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '', 'https://basecamp.com'
+    end
+  end
+
   test "disallows URL target with different port than source" do
     assert_raises GoogleSignIn::RedirectProtector::Violation do
       GoogleSignIn::RedirectProtector.ensure_same_origin 'https://basecamp.com:10443', 'https://basecamp.com'
