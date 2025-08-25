@@ -11,6 +11,8 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to 'http://www.example.com/login'
     assert_equal 'eyJhbGciOiJSUzI', flash[:google_sign_in][:id_token]
     assert_nil flash[:google_sign_in][:error]
+    assert_nil flash[:state]
+    assert_nil flash[:proceed_to]
   end
 
   # Authorization request errors: https://tools.ietf.org/html/rfc6749#section-4.1.2.1
