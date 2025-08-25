@@ -247,6 +247,7 @@ DEPENDENCIES
   byebug
   google_sign_in!
   jwt (>= 1.5.6)
+  mutex_m
   rails (~> 7.0)
   rake
   webmock (>= 3.4.2)

@@ -3,6 +3,8 @@
 appraise "rails-6.1" do
   gem "rails", "~> 6.1"
   gem "concurrent-ruby", "< 1.3.5"
+  gem "mutex_m"
+  gem "drb"
 end
 
 appraise "rails-7.0" do
