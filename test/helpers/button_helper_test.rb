@@ -4,7 +4,7 @@ class GoogleSignIn::ButtonHelperTest < ActionView::TestCase
   test "generating a login button with text content" do
     assert_dom_equal <<-HTML, google_sign_in_button("Log in with Google", proceed_to: "https://www.example.com/login")
       <form action="/google_sign_in/authorization" accept-charset="UTF-8" method="post">
-        <input name="proceed_to" type="hidden" value="https://www.example.com/login" />
+        <input name="proceed_to" type="hidden" value="https://www.example.com/login" autocomplete="off" />
         <button type="submit">Log in with Google</button>
       </form>
     HTML
@@ -13,7 +13,7 @@ class GoogleSignIn::ButtonHelperTest < ActionView::TestCase
   test "generating a login button with HTML content" do
     assert_dom_equal <<-HTML, google_sign_in_button(proceed_to: "https://www.example.com/login") { image_tag("google.png") }
       <form action="/google_sign_in/authorization" accept-charset="UTF-8" method="post">
-        <input name="proceed_to" type="hidden" value="https://www.example.com/login" />
+        <input name="proceed_to" type="hidden" value="https://www.example.com/login" autocomplete="off" />
         <button type="submit"><img src="/images/google.png"></button>
       </form>
     HTML
@@ -25,7 +25,7 @@ class GoogleSignIn::ButtonHelperTest < ActionView::TestCase
 
     assert_dom_equal <<-HTML, button
       <form action="/google_sign_in/authorization" accept-charset="UTF-8" method="post">
-        <input name="proceed_to" type="hidden" value="https://www.example.com/login" />
+        <input name="proceed_to" type="hidden" value="https://www.example.com/login" autocomplete="off" />
         <button type="submit" class="login-button" data-disable-with="Loading Google login…">Log in with Google</button>
       </form>
     HTML
