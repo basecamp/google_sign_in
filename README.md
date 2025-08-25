@@ -170,6 +170,20 @@ For information on our security response procedure, see [SECURITY.md](SECURITY.m
 
 Short of patching critical security issues, this gem is now considered done, and will not see any further feature development or minor bug fixes. Feel free to fork this work under the MIT license and continue the feature development under a different name.
 
+## Development
+
+To set up dependencies locally:
+
+``` sh
+bin/setup
+```
+
+To run the tests against multiple versions of Rails:
+
+``` sh
+bin/test
+```
+
 ## License
 
 Google Sign-In for Rails is released under the [MIT License](https://opensource.org/licenses/MIT).
