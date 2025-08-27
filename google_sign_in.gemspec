@@ -13,6 +13,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'google-id-token', '>= 1.4.0'
   s.add_dependency 'oauth2', '>= 1.4.0'
 
-  s.files      = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- test/*`.split("\n")
+  s.files = Dir["{app,config,lib}/**/*", "MIT-LICENSE", "README.md", "SECURITY.md"]
 end
