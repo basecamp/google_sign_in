@@ -9,20 +9,27 @@ module GoogleSignIn
     QUALIFIED_URL_PATTERN = /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
 
     def ensure_same_origin(target, source)
-      if (target =~ QUALIFIED_URL_PATTERN && origin_of(target) == origin_of(source)) ||
-         (target =~ URI::DEFAULT_PARSER.regexp[:ABS_PATH] && URI(target).host.nil? && !target.start_with?("//"))
-        return
+      unless uri_same_origin?(target, source) || absolute_path?(target)
+        raise Violation, "Redirect target #{target.inspect} does not have same origin as request #{source.inspect}"
       end
-
-      raise Violation, "Redirect target #{target.inspect} does not have same origin as request (expected #{origin_of(source)})"
     end
 
     private
+      def uri_same_origin?(target, source)
+        target =~ QUALIFIED_URL_PATTERN && origin_of(target) == origin_of(source)
+      rescue ArgumentError, URI::Error
+        false
+      end
+
+      def absolute_path?(target)
+        target =~ URI::DEFAULT_PARSER.regexp[:ABS_PATH] && URI(target).host.nil? && !target.start_with?("//")
+      rescue ArgumentError, URI::Error
+        false
+      end
+
       def origin_of(url)
         uri = URI(url)
         "#{uri.scheme}://#{uri.host}:#{uri.port}"
-      rescue ArgumentError
-        nil
       end
   end
 end
