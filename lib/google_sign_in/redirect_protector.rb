@@ -10,7 +10,7 @@ module GoogleSignIn
 
     def ensure_same_origin(target, source)
       if (target =~ QUALIFIED_URL_PATTERN && origin_of(target) == origin_of(source)) ||
-         target =~ URI::DEFAULT_PARSER.regexp[:ABS_PATH]
+         (target =~ URI::DEFAULT_PARSER.regexp[:ABS_PATH] && URI(target).host.nil? && !target.start_with?("//"))
         return
       end
 

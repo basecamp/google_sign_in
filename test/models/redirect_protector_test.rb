@@ -55,4 +55,30 @@ class GoogleSignIn::RedirectProtectorTest < ActiveSupport::TestCase
       GoogleSignIn::RedirectProtector.ensure_same_origin '/callback', 'https://basecamp.com'
     end
   end
+
+  test "disallows double-slash path target" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '//evil.example.org', 'https://basecamp.com'
+    end
+  end
+
+  test "disallows triple-slash path target" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '///evil.example.org', 'https://basecamp.com'
+    end
+  end
+
+  test "disallows invalid paths" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '/a path with spaces is invalid', 'https://basecamp.com'
+    end
+
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '/path#with-fragment', 'https://basecamp.com'
+    end
+
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin '/path?with=query', 'https://basecamp.com'
+    end
+  end
 end
