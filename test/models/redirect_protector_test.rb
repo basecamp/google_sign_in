@@ -44,7 +44,13 @@ class GoogleSignIn::RedirectProtectorTest < ActiveSupport::TestCase
     end
   end
 
-  test "allows path target" do
+  test "disallows relative path target" do
+    assert_raises GoogleSignIn::RedirectProtector::Violation do
+      GoogleSignIn::RedirectProtector.ensure_same_origin 'callback', 'https://basecamp.com'
+    end
+  end
+
+  test "allows absolute path target" do
     assert_nothing_raised do
       GoogleSignIn::RedirectProtector.ensure_same_origin '/callback', 'https://basecamp.com'
     end
