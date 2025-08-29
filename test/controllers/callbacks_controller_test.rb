@@ -103,6 +103,48 @@ class GoogleSignIn::CallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
   end
 
+  test "protecting against open redirects given a malformed URI" do
+    post google_sign_in.authorization_url, params: { proceed_to: 'http://www.example.com\n\r@\n\revil.example.org/login' }
+    assert_response :redirect
+
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
+    assert_response :bad_request
+  end
+
+  test "rejects proceed_to paths if they are relative" do
+    post google_sign_in.authorization_url, params: { proceed_to: 'login' }
+    assert_response :redirect
+
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
+    assert_response :bad_request
+  end
+
+  test "accepts proceed_to paths if they are absolute" do
+    post google_sign_in.authorization_url, params: { proceed_to: '/login' }
+    assert_response :redirect
+
+    stub_token_for '4/SgCpHSVW5-Cy', access_token: 'ya29.GlwIBo', id_token: 'eyJhbGciOiJSUzI'
+
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
+    assert_redirected_to 'http://www.example.com/login'
+  end
+
+  test "protecting against open redirects given a double-slash net path" do
+    post google_sign_in.authorization_url, params: { proceed_to: '//evil.example.org' }
+    assert_response :redirect
+
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
+    assert_response :bad_request
+  end
+
+  test "protecting against open redirects given a triple-slash net path" do
+    post google_sign_in.authorization_url, params: { proceed_to: '///evil.example.org' }
+    assert_response :redirect
+
+    get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: flash[:state])
+    assert_response :bad_request
+  end
+
   test "receiving no proceed_to URL" do
     get google_sign_in.callback_url(code: '4/SgCpHSVW5-Cy', state: 'invalid')
     assert_response :bad_request
